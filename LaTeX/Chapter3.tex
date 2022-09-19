@@ -1,0 +1,361 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
+\author{}
+\date{}
+
+\begin{document}
+
+Problem set for Ch.3
+
+\begin{quote}
+Kensuke Sawada
+
+1H210301-3
+\end{quote}
+
+1. Using the data in GPA2 on 4,137 college students, the following
+equation was estimated by OLS:
+
+\emph{\^{}colgpa}= 1.392 - .0135 \emph{hsperc} + .00148 \emph{sat}
+
+\emph{n}=4,137, \emph{R}\^{}2 = .273,
+
+where colgpa is measured on a four-point scale, hsperc is the percentile
+in the high school graduating class (defined so that, for example,
+\emph{hsperc}= 5 means the top 5\% of the class), and sat is the
+combined math and verbal scores on the student achievement test.
+
+(i) Why does it make sense for the coefficient on \emph{hsperc} to be
+negative?
+
+Since the problem statement indicates that hsperc=5 means the top 5\% of
+the class, the larger \emph{hsperc} represents lower grades in high
+school. Hence, a negative coefficient for hsperc when other coefficients
+are fixed means that low grades in high school make \emph{colgpa} lower.
+
+(ii) What is the predicted college GPA when hsperc = 20 and = sat =
+1,050?
+
+\emph{colgpa}=1.392-.0135(20) +.00148(1050) =2.676
+
+Substituting \emph{hsperc}=20 and \emph{sat}=1050 into the equation, it
+obtains a college GPA of 2.676.
+
+(iii) Suppose that two high school graduates, A and B, graduated in the
+same percentile from high school, but Student A's SAT score was 140
+points higher (about one standard deviation in the sample). What is the
+predicted difference in college GPA for these two students? Is the
+difference large?
+
+Holding hsperc fixed, the difference in GPA is 140 times the coefficient
+of sat.
+
+.00148(140) =.2072
+
+Hence, A is predicted to have a GPA .2072 higher than B.
+
+(iv) Holding hsperc fixed, what difference in SAT scores leads to a
+predicted colgpa difference of .50, or one-half of a grade point?
+Comment on your answer.
+
+Problem description show Δ\emph{colgpa} =.50 and
+Δ\emph{colgpa}=.00148Δ\emph{sat}
+
+.50=.00148Δ\emph{sat}
+
+Δ\emph{sat}≈337.83
+
+Hence, the difference of 337.83 SAT scores leads to a predicted colgpa
+difference of .50. To predict 0.5 GPA difference, which is 12.5\% of the
+total, would require a difference in SAT scores as large as 337.83.
+
+C3.The file CEOSAL2 contains data on 177 chief executive officers and
+can be used to examine the effects of firm performance on CEO salary.
+
+(i)Estimate a model relating annual salary to firm sales and market
+value. Make the model of the constant elasticity variety for both
+independent variables. Write the results out in equation form.
+
+\#Open the dataset
+
+library(wooldridge)
+
+data("ceosal2")
+
+\#Model: log-log model
+
+C3 \textless- lm(log(salary)\textasciitilde log(sales)+log(mktval),
+data)
+
+\#Report the result
+
+library (stargazer)
+
+stargazer (C3, type = "text", title = "Table 1: sales \&mktval")
+
+Table 1: sales \&mktval
+
+===============================================
+
+Dependent variable:
+
+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-
+
+log(salary)
+
+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-
+
+log(sales) 0.162***
+
+(0.040)
+
+log(mktval) 0.107**
+
+(0.050)
+
+Constant 4.621***
+
+(0.254)
+
+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-
+
+Observations 177
+
+R2 0.299
+
+Adjusted R2 0.291
+
+Residual Std. Error 0.510 (df = 174)
+
+F Statistic 37.129*** (df = 2; 174)
+
+===============================================
+
+Note: *p\textless0.1; **p\textless0.05; ***p\textless0.01
+
+Estimate log-log model to make the model of the constant elasticity
+variety.
+
+From Table 1, the estimated model is
+
+log(\emph{salary})=.162 log(\emph{sales})+.107 log(\emph{mktval})+4.621
+
+(ii)Add profits to the model from part (i). Why can this variable not be
+included in logarithmic form? Would you say that these firm performance
+variables explain most of the variation in CEO salaries?
+
+\#model: add profits to C3
+
+C3.1 \textless-
+lm(log(salary)\textasciitilde log(sales)+log(mktval)+profits, data)
+
+\#report the result
+
+stargazer(C3.1, type = "text", title = "Table 2: sales\& mktval\&
+profits")
+
+Table 2: sales\& mktval\& profits
+
+===============================================
+
+Dependent variable:
+
+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-
+
+log(salary)
+
+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-
+
+log(sales) 0.161***
+
+(0.040)
+
+log(mktval) 0.098
+
+(0.064)
+
+profits 0.00004
+
+(0.0002)
+
+Constant 4.687***
+
+(0.380)
+
+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-
+
+Observations 177
+
+R2 0.299
+
+Adjusted R2 0.287
+
+Residual Std. Error 0.512 (df = 173)
+
+F Statistic 24.636*** (df = 3; 173)
+
+===============================================
+
+Note: *p\textless0.1; **p\textless0.05; ***p\textless0.01
+
+From Table 2, the estimated model is
+
+log(\emph{salary})=.161 log(\emph{sales})+.098
+log(\emph{mktval})+.00004\emph{profits}+4.687
+
+\emph{profits} cannot be included in logarithmic form, because
+\emph{profits} of 9 companies is negative.
+
+The coefficient of \emph{profits} is estimated .00004. Hence, these firm
+performance variables do
+
+not explain most of the variation in CEO salaries.
+
+(iii)Add the variable \emph{ceoten} to the model in part (ii). What is
+the estimated percentage return for another year of CEO tenure, holding
+other factors fixed?
+
+\#model: add ceoten to C3.1
+
+C3.2 \textless-
+lm(log(salary)\textasciitilde log(sales)+log(mktval)+profits+ceoten,
+data)
+
+\#report the result
+
+stargazer(C3.2, type = "text", title = "Table 3: sales\& mktval\&
+profits\& ceoten")
+
+Table 3: sales\& mktval\& profits\& ceoten
+
+===============================================
+
+Dependent variable:
+
+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-
+
+log(salary)
+
+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-
+
+log(sales) 0.162***
+
+(0.039)
+
+log(mktval) 0.102
+
+(0.063)
+
+profits 0.00003
+
+(0.0002)
+
+ceoten 0.012**
+
+(0.005)
+
+Constant 4.558***
+
+(0.380)
+
+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-
+
+Observations 177
+
+R2 0.318
+
+Adjusted R2 0.302
+
+Residual Std. Error 0.506 (df = 172)
+
+F Statistic 20.077*** (df = 4; 172)
+
+===============================================
+
+Note: *p\textless0.1; **p\textless0.05; ***p\textless0.01
+
+From Table 3, the estimated model is
+
+log(salary)=.162log (sales)+.102 log(mktval)+.00003 profits+.012
+ceoten+4.558
+
+The estimated percentage is 1.2\% for another year of CEO tenure,
+holding other factors fixed.
+
+(iv)Find the sample correlation coefficient between the variables
+log(\emph{mktval}) and profits. Are these variables highly correlated?
+What does this say about the OLS estimators?
+
+\#View the scattergram
+
+plot (log(data\$mktval),data\$profits, main="Correlation between
+log(mkval) and profits", xlab="sales", ylab="profits")
+
+\includegraphics[width=5.90556in,height=3.78542in]{media/image1.png}
+
+\#calculate R
+
+cor (log(data\$mktval),data\$profits)
+
+The result on R shows correlation coefficient between sales and profits
+is 0.7768976 and it says high correlation. High correlation between
+variables makes variance large in OLS estimators.
+
+\end{document}
